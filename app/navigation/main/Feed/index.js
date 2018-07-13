@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import { Icon } from 'native-base';
+
+import { Feed } from '../../../scenes/main';
+
 
 const icon = ({focused, tintColor}) => {
   return (
@@ -8,16 +10,16 @@ const icon = ({focused, tintColor}) => {
   );
 }
 
-class Feed extends Component {
+class FeedNav extends Component {
   static navigationOptions = {
     tabBarIcon: icon
   }
 
   render() {
     return (
-      <View />
+      <Feed />
     );
   }
 }
 
-export default Feed;
+export default FeedNav;
