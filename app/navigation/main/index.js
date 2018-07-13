@@ -11,6 +11,12 @@ const Main = createBottomTabNavigator({
   Library,
   Messages,
   Transactions
+}, {
+  tabBarOptions: {
+    activeTintColor: 'black',
+    inactiveTintColor: 'gray',
+    showLabel: false
+  }
 });
 
 export default Main;
