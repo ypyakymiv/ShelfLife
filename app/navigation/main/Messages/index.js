@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { Messages } from '../../../scenes/main';
 import { Icon } from 'native-base';
 
 const icon = ({focused, tintColor}) => {
@@ -8,7 +8,7 @@ const icon = ({focused, tintColor}) => {
   );
 }
 
-class Messages extends Component {
+class MessagesNav extends Component {
 
   static navigationOptions = {
     tabBarIcon: icon
@@ -16,9 +16,9 @@ class Messages extends Component {
 
   render() {
     return (
-      <View />
+      <Messages />
     );
   }
 }
 
-export default Messages;
+export default MessagesNav;

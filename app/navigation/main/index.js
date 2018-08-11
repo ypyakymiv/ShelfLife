@@ -16,7 +16,8 @@ const Main = createBottomTabNavigator({
     activeTintColor: 'black',
     inactiveTintColor: 'gray',
     showLabel: false
-  }
+  },
+  lazyLoad: false
 });
 
 export default Main;

@@ -49,6 +49,7 @@
 		F56E1264459A4C43BD981823 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D565D605E8D344AE8C3506FC /* Octicons.ttf */; };
 		E0167B689A1D480CA1763C88 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 36964DC442E64F2D8EFFFD8F /* SimpleLineIcons.ttf */; };
 		A657090C931E47BFA9761B08 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D7E68EEC1C34085B9E3B9FE /* Zocial.ttf */; };
+		1E206ED0B58449A2A2EDDA2A /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A2FE0AF17194A6E90BFF54F /* icomoon.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -367,6 +368,7 @@
 		D565D605E8D344AE8C3506FC /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		36964DC442E64F2D8EFFFD8F /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		7D7E68EEC1C34085B9E3B9FE /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5A2FE0AF17194A6E90BFF54F /* icomoon.ttf */ = {isa = PBXFileReference; name = "icomoon.ttf"; path = "../resources/fonts/icomoon.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -645,6 +647,7 @@
 				D565D605E8D344AE8C3506FC /* Octicons.ttf */,
 				36964DC442E64F2D8EFFFD8F /* SimpleLineIcons.ttf */,
 				7D7E68EEC1C34085B9E3B9FE /* Zocial.ttf */,
+				5A2FE0AF17194A6E90BFF54F /* icomoon.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1107,6 +1110,7 @@
 				F56E1264459A4C43BD981823 /* Octicons.ttf in Resources */,
 				E0167B689A1D480CA1763C88 /* SimpleLineIcons.ttf in Resources */,
 				A657090C931E47BFA9761B08 /* Zocial.ttf in Resources */,
+				1E206ED0B58449A2A2EDDA2A /* icomoon.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

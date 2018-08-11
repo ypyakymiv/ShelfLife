@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { Transactions } from '../../../scenes/main';
 import { Icon } from 'native-base';
 
 const icon = ({focused, tintColor}) => {
@@ -8,7 +8,7 @@ const icon = ({focused, tintColor}) => {
   );
 }
 
-class Transactions extends Component {
+class TransactionsNav extends Component {
 
   static navigationOptions = {
     tabBarIcon: icon
@@ -16,9 +16,9 @@ class Transactions extends Component {
 
   render() {
     return (
-      <View />
+      <Transactions />
     );
   }
 }
 
-export default Transactions;
+export default TransactionsNav;

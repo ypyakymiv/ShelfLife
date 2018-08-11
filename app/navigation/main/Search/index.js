@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import { Icon } from 'native-base';
+
+import Search from './Search';
 
 const icon = ({focused, tintColor}) => {
   return (
@@ -8,7 +9,7 @@ const icon = ({focused, tintColor}) => {
   );
 }
 
-class Search extends Component {
+class SearchNav extends Component {
 
   static navigationOptions = {
     tabBarIcon: icon
@@ -16,9 +17,9 @@ class Search extends Component {
 
   render() {
     return (
-      <View />
+      <Search />
     );
   }
 }
 
-export default Search;
+export default SearchNav;
