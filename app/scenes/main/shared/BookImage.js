@@ -11,9 +11,17 @@ class BookImage extends Component {
 
   constructor(props) {
     super(props);
+
     Image.getSize(props.source.uri,
       (width, height) => this.setState({aspectRatio: width / height})
     );
+  }
+
+  measure = (onMeasure = null) => {
+    this.refs.view.measureInWindow((x, y, width, height) => {
+      if(onMeasure)
+        onMeasure({x, y, width, height});
+    });
   }
 
   setInfo = ({nativeEvent}) => {
@@ -42,10 +50,6 @@ class BookImage extends Component {
     }
   }
 
-  componentDidMount() {
-
-  }
-
   _setRef = (ref) => {
     const { onRef } = this.props;
 
@@ -59,7 +63,7 @@ class BookImage extends Component {
 
     if(fillWidth) {
       return (
-        <View ref={this._setRef} onLayout={this.setInfo} style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row', backgroundColor: 'red'}}>
+        <View ref="view" onLayout={this.setInfo} style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}}>
           <Image style={this.imageFillWidth()} source={this.props.source} />
         </View>
       );

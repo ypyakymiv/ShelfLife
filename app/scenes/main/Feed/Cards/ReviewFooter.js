@@ -56,7 +56,7 @@ class ReviewFooter extends Component {
       this.setState({
         containerHeight: height,
         footerOffset: new Animated.Value(0)
-      });
+      }, this._popTheHood);
     }
 
     return <View style={measure} onLayout={_onLayout} />

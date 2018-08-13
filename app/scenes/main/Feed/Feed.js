@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, SectionList, Image, View, Animated, TouchableWithoutFeedback } from 'react-native';
+import { FlatList, SectionList, Image, View, Animated, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import BookPanel from './BookPanel';
 import { Title, Text } from 'native-base';
 import { Review, ReviewFooter, CardHeader } from './Cards';
@@ -40,6 +40,7 @@ class Feed extends Component {
     var review = {
       ref: null
     };
+
 
     return (
       <Review
@@ -107,10 +108,9 @@ class Feed extends Component {
 
   render() {
 
-    const { containerHeight } = this.state;
 
     return (
-      <View onLayout={({nativeEvent}) => this.setState({containerHeight: nativeEvent.layout.height}, () => this._popTheHood())} style={{flex: 1}}>
+      <View style={{flex: 1}}>
         <SectionList
           scrollEventThrottle={1}
           ref={(list) => this._list = list}
