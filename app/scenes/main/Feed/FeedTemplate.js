@@ -8,13 +8,11 @@ class FeedTemplate extends Component {
 
   render() {
 
-    const { headerVisible } = this.props;
-
-    // console.log("2HeaderVisible: " + headerVisible);
+    const { headerCollapsed } = this.props;
 
     return (
       <Container>
-        <CustomHeader headerVisible={headerVisible}>
+        <CustomHeader collapsed={headerCollapsed}>
           <Body style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
             <CustomIcon name="ShelfLife" style={{fontSize: 30, color: 'black'}} />
           </Body>

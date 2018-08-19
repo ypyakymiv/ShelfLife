@@ -25,7 +25,7 @@ class Review extends Component {
 
   MeasureEnd = (props) => {
 
-    const aspectRatio = 1/2;
+    const { aspectRatio } = this.refs.bookImage.state;
 
     const _onLayout = ({nativeEvent}) => {
 
@@ -38,9 +38,7 @@ class Review extends Component {
         y
       };
 
-      console.log(end);
-
-      this.setState(end);
+      this.setState({end});
     }
 
 
@@ -53,61 +51,50 @@ class Review extends Component {
 
   }
 
+  setCurrent = async () => {
+
+    const _wrap = (layout) => {
+      return {
+        width: new Animated.Value(layout.width),
+        height: new Animated.Value(layout.height),
+        x: new Animated.Value(layout.x),
+        y: new Animated.Value(layout.y)
+      };
+    }
+
+    const { current, end, origin, expanded, animating } = this.state;
+
+    if(expanded) return this.setStatePromise({current: _wrap(end)});
+    else if(!animating) return this.setStatePromise({current: _wrap(origin)});
+  }
+
   AnimatingReview = (props) => {
-    const { width, height, x, y } = this.state.current;
+    const { width, height, x, y } = this.state.origin;
 
-    return (
-      <Animated.View style={{width, y}}>
-        <BookImage fullWidth={true} />
-      </Animated.View>
+    return <View style={{height, width, margin: 10, opacity: 0}} />
+  }
+
+  setStatePromise = async (state) => {
+    await this.setState(state);
+  }
+
+  measure = () => {
+    return new Promise((resolve, reject) => {
+      this.refs.bookImage.measure(
+        (x, y, width, height) => {
+          resolve({x, y, height, width});
+        }
+      );
+    });
+  }
+
+  measureOrigin = async () => {
+    await this.measure().then(
+      async origin => {
+        console.log(origin)
+        await this.setStatePromise({origin})
+      }
     );
-  }
-
-  animateToOrigin = () => {
-    const { width, y } = this.state.current;
-    const { origin } = this.state;
-
-    Animated.parallel([
-      Animated.spring(width, {
-        toValue: origin.width,
-        duration: 150
-      }),
-      Animated.spring(y, {
-        toValue: origin.y,
-        duration: 150
-      })
-    ]).start(() => {
-      this.setState({animating: false, expanded: false});
-    });
-  }
-
-  animateToEnd = () => {
-    const { width, y } = this.state.current;
-    const { end } = this.state;
-
-    Animated.parallel([
-      Animated.spring(width, {
-        toValue: end.width,
-        duration: 150
-      }),
-      Animated.spring(y, {
-        toValue: end.y,
-        duration: 150
-      })
-    ]).start(() => {
-      this.setState({animating: false, expanded: true});
-    });
-  }
-
-  measureOrigin = (callback = null) => {
-    this.refs.bookImage.measure((origin) => {
-
-      console.log(origin)
-      if(callback)
-        this.setState({origin}, callback);
-      else
-        this.setState({origin});
-    });
   }
 
   setInitial = ({nativeEvent}) => {
@@ -124,29 +111,50 @@ class Review extends Component {
     });
   }
 
-  _expand = () => {
-    // this.setState({animating: true});
-    this.measureOrigin(this.animateToEnd);
+  prepareAnimation = async () => {
+    return this.measureOrigin().then(
+      () => {
+        return this.setCurrent().then(
+          () => {
+            return this.setStatePromise({animating: true});
+          }
+        )
+      }
+    );
   }
+
+  completeAnimation = async (expanded = false, callback = null) => {
+    await this.setState({expanded, animating: false}, callback);
+  }
+
+  onPress = () => {
+    const { onPress, onAnimation } = this.props;
+    const { _getAnimation } = this;
+
+    if(onAnimation) setTimeout(() => onAnimation(this), 0);
+
+    if(onPress) setTimeout(onPress, 0);
+  }
+
 
   render() {
 
-    const { end, animating } = this.state;
-    const { MeasureEnd } = this;
+    const { end, animating, expanded } = this.state;
+    const { MeasureEnd, AnimatingReview, setInitial } = this;
 
-    if(true) {
+    if(!end && this.refs.bookImage) {
       return <MeasureEnd />
     }
-
-    // <BookImage /*ref={ref => {this.bookImage = ref}}*/ fillWidth={true} source={{uri: 'https://bloximages.newyork1.vip.townnews.com/stltoday.com/content/tncms/assets/v3/editorial/6/14/61478052-6253-11e1-9ddd-001a4bcf6878/4f4d4794d3f11.image.jpg'}}/>
-    if(animating)
-      return <AnimatingReview />;
+    else if(animating || expanded)
+      return (
+        <AnimatingReview />
+      );
     else
       return (
-        <TouchableWithoutFeedback onPress={this.props.onPress}>
+        <TouchableWithoutFeedback onPress={this.onPress}>
           <View ref="view" style={{alignSelf: 'stretch', flexDirection: 'column'}}>
             <View style={{flexDirection: 'column', padding: 10, justifyContent: 'space-between', alignItems: 'center'}}>
-              <BookImage ref="bookImage" onLayout={this.setInitial} fillWidth={true} source={{uri: 'https://bloximages.newyork1.vip.townnews.com/stltoday.com/content/tncms/assets/v3/editorial/6/14/61478052-6253-11e1-9ddd-001a4bcf6878/4f4d4794d3f11.image.jpg'}}/>
+              <BookImage onLayout={setInitial} ref="bookImage" fillWidth={true} source={this.props.source}/>
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -157,7 +165,6 @@ class Review extends Component {
 class Styles {
   static measure() {
     return {
-      backgroundColor: 'red',
       position: 'absolute',
       height: 1,
       left: 0,

@@ -18,22 +18,19 @@ const sampleData = [
 class FeedScene extends Component {
 
   state = {
-    headerVisible: true
+    headerCollapsed: false
   }
 
   render() {
 
-    const { headerVisible } = this.state;
-
-    // console.log("1HeaderVisible: " + headerVisible);
-
+    const { headerCollapsed } = this.state;
 
     return (
-      <FeedTemplate headerVisible={headerVisible}>
+      <FeedTemplate headerCollapsed={headerCollapsed}>
         <Feed
           toggleHeader={
-            (headerVisible) => {
-              this.setState({headerVisible});
+            (headerCollapsed) => {
+              this.setState({headerCollapsed});
             }
           }
           data={sampleData}

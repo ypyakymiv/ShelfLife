@@ -1,78 +1,25 @@
 import React, { Component } from 'react';
 import { Animated, StyleSheet, StatusBar } from 'react-native';
 import { Header } from 'native-base';
+import Collapsible from 'react-native-collapsible';
 
 const headerColor = '#F7F7F7';
 
 class CustomHeader extends Component {
 
-  // state = {
-  //   translateY: null,
-  // }
-  //
-  // _showHeader = () => {
-  //   // const { height } = this.state;
-  //   // if(!height) return;
-  //
-  //   this._growHeader(1);
-  // }
-  //
-  // _hideHeader = () => {
-  //   this._growHeader(0);
-  // }
-  //
-  // _growHeader = (value, callback = null) => {
-  //
-  //
-  //   const { translateY } = this.state;
-  //
-  //   if(callback)
-  //     Animated.spring(translateY, {
-  //       toValue: value,
-  //       duration: 150,
-  //     }).start(callback);
-  //   else
-  //     Animated.spring(translateY, {
-  //       toValue: value,
-  //       duration: 150,
-  //     }).start();
-  // }
-  //
-  // componentDidUpdate(prevProps) {
-  //   const { headerVisible } = this.props;
-  //
-  //
-  //
-  //   if(headerVisible != prevProps.headerVisible)
-  //     if(headerVisible) {
-  //       console.log("Show");
-  //
-  //       this._showHeader();
-  //     }
-  //     else {
-  //       console.log("Hide");
-  //
-  //       this._hideHeader();
-  //     }
-  // }
-  //
-  // _transform = () => {
-  //
-  //   const { translateY } = this.state;
-  //
-  //   return {
-  //     transform: [{translateY}]
-  //   };
-  // }
-
   render() {
 
+    const { collapsed } = this.props;
+
+    if(collapsed == null) var noCollapse = true;
 
     return (
-      <Header style={[styles.header, this.props.style]}>
-        <StatusBar backgroundColor={headerColor} barStyle={'dark-content'} />
-        {this.props.children}
-      </Header>
+      <Collapsible collapsed={noCollapse ? false : collapsed}>
+        <Header style={[styles.header, this.props.style]}>
+          <StatusBar backgroundColor={headerColor} barStyle={'dark-content'} />
+          {this.props.children}
+        </Header>
+      </Collapsible>
     );
   }
 

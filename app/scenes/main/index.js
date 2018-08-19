@@ -4,6 +4,7 @@ import Details from './Details';
 import Library from './Library';
 import Messages from './Messages';
 import Transactions from './Transactions';
+import FeedDetailsTransition from './FeedDetailsTransition';
 
 export {
   Feed,
@@ -11,5 +12,6 @@ export {
   Details,
   Library,
   Messages,
-  Transactions
+  Transactions,
+  FeedDetailsTransition
 };

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Icon } from 'native-base';
 
-import { Feed } from '../../../scenes/main';
-
+import FeedWithDetails from './FeedWithDetails';
 
 const icon = ({focused, tintColor}) => {
   return (
@@ -17,7 +16,7 @@ class FeedNav extends Component {
 
   render() {
     return (
-      <Feed />
+      <FeedWithDetails />
     );
   }
 }

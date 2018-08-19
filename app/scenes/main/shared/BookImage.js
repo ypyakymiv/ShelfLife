@@ -17,19 +17,19 @@ class BookImage extends Component {
     );
   }
 
-  measure = (onMeasure = null) => {
-    this.refs.view.measureInWindow((x, y, width, height) => {
-      if(onMeasure)
-        onMeasure({x, y, width, height});
-    });
+  measure = (callback = null) => {
+    this.refs.view.measureInWindow(callback);
   }
 
   setInfo = ({nativeEvent}) => {
     const { width, height } = nativeEvent.layout;
+    const { onLayout } = this.props;
 
     this.setState({
       width, height
     });
+
+    if(onLayout) onLayout({nativeEvent});
   }
 
   getAspectRatio() {

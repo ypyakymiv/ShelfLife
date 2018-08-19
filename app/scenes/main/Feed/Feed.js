@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, SectionList, Image, View, Animated, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import BookPanel from './BookPanel';
 import { Title, Text } from 'native-base';
 import { Review, ReviewFooter, CardHeader } from './Cards';
@@ -23,7 +24,10 @@ class Feed extends Component {
     item: null,
     hoodHeight: new Animated.Value(0),
     hoodPop: null,
-    hoodFolded: true
+    hoodFolded: true,
+    animatingElement: null,
+    animating: false,
+    expanded: false
   }
 
   componentDidMount() {
@@ -32,10 +36,16 @@ class Feed extends Component {
     // }, 3000);
   }
 
+  onAnimation = (ref) => {
+    ref.prepareAnimation().then(
+      () => {
+        const { origin, end } = ref.state;
+        this.props.navigation.push("FeedDetailsTransition", {origin, end, source: ref.props.source});
+      }
+    );
+  }
+
   _renderItem = ({item, index}) => {
-    // return (
-    //   <BookPanel selected={focused == index} source={item.img} width={width} />
-    // );
 
     var review = {
       ref: null
@@ -45,11 +55,16 @@ class Feed extends Component {
     return (
       <Review
         ref={r => review.ref = r}
+        source={
+          {uri: 'https://bloximages.newyork1.vip.townnews.com/stltoday.com/content/tncms/assets/v3/editorial/6/14/61478052-6253-11e1-9ddd-001a4bcf6878/4f4d4794d3f11.image.jpg'}
+        }
         onPress={
           () => {
             this._hideDetails();
-            review.ref._expand();
           }
+        }
+        onAnimation={
+          this.onAnimation
         }
       />
     );
@@ -64,7 +79,7 @@ class Feed extends Component {
 
     this.setState({headersHidden: true});
     if(toggleHeader)
-      toggleHeader(false);
+      toggleHeader(true);
   }
 
   _hideDetails = (callback = null) => {
@@ -83,24 +98,6 @@ class Feed extends Component {
 
   _unfoldTheHood = (callback = null) => {
     this._footer._unfoldTheHood(callback);
-  }
-
-  updateViewableItem = (info) => {
-    // if(info.viewableItems) {
-    //   if(!info.viewableItems.count < 0 || !info.viewableItems[0].key) return;
-    //   focused = parseInt(info.viewableItems[0].key);
-    //   if(focused != this.state.focused) {
-    //     if(info.viewableItems[0].index || info.viewableItems[0].index == 0)
-    //       item = info.viewableItems[0].item;
-    //     else
-    //       item = info.viewableItems[0].item.data[0];
-    //     this.setState({focused, item}, () => {
-    //       console.log(this.state);
-    //     });
-    //   }
-    // }
-
-    // console.log(info);
   }
 
 // D. Juul
@@ -156,7 +153,7 @@ class Feed extends Component {
   }
 }
 
-export default Feed;
+export default withNavigation(Feed);
 
 
 // <Animated.View style={{position: 'absolute', bottom: this.state.hoodHeight, left: 0, right: 0, height: containerHeight + 30, backgroundColor: 'white', flexDirection: 'column'}}>

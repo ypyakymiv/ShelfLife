@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { View, Image } from 'react-native';
 import { Title, Text } from 'native-base';
-import { FlyAway } from '../../shared';
+import Collapsible from 'react-native-collapsible';
 
 class CardHeader extends Component {
 
-  // state = {
-  //   hidden: false
-  // }
+  state = {
+    collapsed: false
+  }
 
   // componentDidMount() {
   //   const { hidden } = this.props;
@@ -29,17 +29,19 @@ class CardHeader extends Component {
   }
 
   _flyAway = () => {
-    this._fly._flyAway()
+    this.setState({collapsed: true});
   }
 
   _flyBack = () => {
-    this._fly._flyBack()
+    this.setState({collapsed: false});
   }
 
   render() {
 
+    const { collapsed } = this.state;
+
     return (
-      <FlyAway ref={fly => this._fly = fly}>
+      <Collapsible collapsed={collapsed}>
         <View style={{alignSelf: 'stretch', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', borderBottomWidth: .5, borderColor: '#F7F7F7', padding: 5, backgroundColor: 'white', ...this.props.style}}>
           <Image source={this.props.authorImageSource} style={{width: 50, height: 50, borderRadius: 25}} />
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', marginLeft: 20}}>
@@ -51,7 +53,7 @@ class CardHeader extends Component {
             </Title>
           </View>
         </View>
-      </FlyAway>
+      </Collapsible>
     );
   }
 }
