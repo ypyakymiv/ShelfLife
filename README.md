@@ -1,5 +1,7 @@
 # ShelfLife
 
+![Test gif](/images/test.gif)
+
 Currently in development.
 
 ShelfLife or Siftor (tbd) is a better market place for books.
