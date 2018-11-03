@@ -5,8 +5,8 @@
   ShelfLife
 </h1>
 
-<h1 style="align:center;">
-  <img src="https://github.com/ypyakymiv/ShelfLife/blob/master/RM_res/test.gif" style="display: block;" width="30%" />
+<h1 align="center">
+  <img src="https://github.com/ypyakymiv/ShelfLife/blob/master/RM_res/test.gif" style="align:center;" width="30%" />
 </h1>
 
 Currently in development.
