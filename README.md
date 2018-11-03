@@ -1,6 +1,6 @@
 # ShelfLife
 
-![Test gif](/images/test.gif)
+![Test gif](/RM_RES/test.gif)
 
 Currently in development.
 
