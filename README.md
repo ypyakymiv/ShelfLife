@@ -5,7 +5,7 @@
   ShelfLife
 </h1>
 
-<h1 style="display: inline; width: 100%; align: center;">
+<h1 style="display:inline; width:100%; align:center;">
   <img src="https://github.com/ypyakymiv/ShelfLife/blob/master/RM_res/test.gif" style="display: block;" width="30%" />
 </h1>
 
