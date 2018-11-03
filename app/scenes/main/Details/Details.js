@@ -7,7 +7,7 @@ class Details extends Component {
   render() {
     return (
       <DetailsTemplate>
-        <DetailsBody />
+        <DetailsBody {...this.props} />
       </DetailsTemplate>
     );
   }

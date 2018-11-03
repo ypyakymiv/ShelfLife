@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, Image, View, ScrollView, Animated, Dimensions } from 'react-native';
+import { BookImage } from '../shared';
 import { Title, Text, Icon } from 'native-base';
 
 const TEST_DATA = {
@@ -16,26 +17,77 @@ const TEST_DATA = {
   }
 }
 
-class DetailsBody extends Component {
+
+class AnimatingInfo extends Component {
+  state = {
+    animation: new Animated.Value(0),
+    animating: false
+  }
+
+  constructor(props) {
+    super(props);
+
+    const { attached } = this.props;
+    const { springTo } = this;
+
+    if(attached)
+      springTo(1)
+  }
+
+  springTo = (val) => {
+    const { animation } = this.state;
+    const { onAnimation } = this.props;
+
+    if(onAnimation) onAnimation(true);
+
+    Animated.spring(animation, {
+      toValue: val,
+      duration: 150,
+      useNativeDriver: true
+    }).start(() => {
+      if(onAnimation) onAnimation(false);
+    });
+
+  }
+
+  componentDidUpdate(prevProps) {
+    const { springTo } = this;
+    const { attached } = this.props;
+
+    if(prevProps.attached != attached)
+      if(attached) springTo(1);
+      else springTo(0);
+  }
+
   render() {
+    const { animation } = this.state;
+    const { height } = Dimensions.get('window');
 
-    const {
-      image,
-      title,
-      author,
-      authorImage,
-      description
-    } = TEST_DATA;
+    const animatingStyle = {
+      transform: [
+        {
+          translateY: animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [height, 0]
+          })
+        }
+      ]
+    }
 
-    const {
-      container
-    } = styles;
 
     return (
-      <View style={container}>
-        <View style={{flex: 1, height: 200}}>
-          <Image resizeMode={'cover'} style={{flex: 1}} source={image} />
-        </View>
+      <Animated.View style={animatingStyle}>
+        <Info {...this.props} />
+      </Animated.View>
+    );
+  }
+}
+
+class Info extends Component {
+  render() {
+    const { title, author, authorImage, description } = this.props;
+    return (
+      <View style={{backgroundColor: 'white'}}>
         <View style={{alignSelf: 'stretch', flexDirection: 'row', alignItems: 'center', paddingLeft: 10, paddingRight: 15, padding: 5, borderBottomWidth: 1, borderBottomColor: '#F7F7F7'}}>
           <View>
             <Image resizeMode={'cover'} style={{width: 50, height: 50, borderRadius: 25}} source={authorImage} />
@@ -57,18 +109,58 @@ class DetailsBody extends Component {
             {description}
           </Text>
         </View>
-        <View style={{alignSelf: 'stretch', justifyContent: 'center'}}>
-          <Icon type="FontAwesome" name="comment-o" style={{alignSelf: 'center', padding: 10}} />
-        </View>
       </View>
+    );
+  }
+}
+
+class DetailsBody extends Component {
+
+  state = {
+    detailsAttached: true,
+    animating: true
+  }
+
+  onAnimation = (bool) => {
+    this.setState({animating: bool})
+  }
+
+  renderInfo = (props) => {
+    const { animating, detailsAttached } = this.state;
+    const { onAnimation } = this;
+
+    if(animating)
+      return <AnimatingInfo onAnimation={onAnimation} attached={detailsAttached} {...props} />;
+    else
+      return <Info {...props} />;
+  }
+
+  render() {
+    const { renderInfo } = this;
+
+    const {
+      animating
+    } = this.state;
+
+    const {
+      container
+    } = styles;
+
+
+    console.log(this.props)
+
+    return (
+      <ScrollView showsVerticalScrollIndicator={false} scrollEnabled={!animating} style={container}>
+        <BookImage fillWidth={true} source={this.props.book.image} />
+        {renderInfo(this.props.book)}
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column'
+    backgroundColor: 'transparent'
   }
 });
 

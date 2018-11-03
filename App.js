@@ -3,9 +3,10 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 import Nav from './app/navigation';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './app/state/store';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 
-export default class App extends Component {
+class App extends Component {
+
   render() {
     return (
       <Provider store={store}>
@@ -16,3 +17,6 @@ export default class App extends Component {
     );
   }
 }
+
+
+export default App;

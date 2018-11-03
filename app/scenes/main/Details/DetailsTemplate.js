@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Container, Content, Left, Body, Right, Title } from 'native-base';
 import { CustomIcon, CustomHeader, BookImage } from '../shared';
 
@@ -15,13 +15,10 @@ class DetailsTemplate extends Component {
     const { header } = styles;
 
     return (
-      <Container>
+      <View>
 
-
-        <Content>
-          {this.props.children}
-        </Content>
-      </Container>
+        {this.props.children}
+      </View>
     );
   }
 }

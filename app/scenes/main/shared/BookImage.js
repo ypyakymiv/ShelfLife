@@ -13,7 +13,12 @@ class BookImage extends Component {
     super(props);
 
     Image.getSize(props.source.uri,
-      (width, height) => this.setState({aspectRatio: width / height})
+      (width, height) => this.setState({aspectRatio: width / height}, () => {
+        const { aspectRatio } = this.state;
+        const { onAspect } = this.props;
+
+        if(onAspect) onAspect(aspectRatio);
+      })
     );
   }
 
@@ -24,6 +29,8 @@ class BookImage extends Component {
   setInfo = ({nativeEvent}) => {
     const { width, height } = nativeEvent.layout;
     const { onLayout } = this.props;
+
+    console.log("actual width => " + width);
 
     this.setState({
       width, height
@@ -63,7 +70,7 @@ class BookImage extends Component {
 
     if(fillWidth) {
       return (
-        <View ref="view" onLayout={this.setInfo} style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}}>
+        <View ref="view" onLayout={this.setInfo} style={{flexDirection: 'row'}}>
           <Image style={this.imageFillWidth()} source={this.props.source} />
         </View>
       );

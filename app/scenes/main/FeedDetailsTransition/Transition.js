@@ -8,6 +8,13 @@ class Transition extends Component {
     animation: new Animated.Value(0)
   }
 
+  constructor(props) {
+    super(props);
+    this.props.navigation.addListener('didFocus', () => {
+      this.start();
+    })
+  }
+
   _getProp = name => {
     return this.props.navigation.getParam(name)
   }
@@ -23,9 +30,10 @@ class Transition extends Component {
 
     Animated.spring(animation, {
       toValue: opened() ? 0 : 1,
-      duration: 150,
+      duration: 50,
       useNativeDriver: true
     }).start(() => {
+      this.props.navigation.push("Details")
     });
   }
 
@@ -37,8 +45,9 @@ class Transition extends Component {
     const end = _getProp('end');
     const source = _getProp('source');
 
+
     return (
-      <View onLayout={this.start} style={{flex: 1, alignSelf: 'stretch', backgroundColor: 'transparent'}}>
+      <View style={{flex: 1, alignSelf: 'stretch', backgroundColor: 'transparent'}}>
         <Animated.Image style={Style.animatedImage({origin, end, animation})} source={source}/>
       </View>
     );
@@ -47,23 +56,23 @@ class Transition extends Component {
 
 class Style {
   static animatedImage = ({origin, end, animation}) => {
+
+    const offset = end.height - origin.height;
+    const factor = origin.height / end.height;
+
+    console.log({origin, end})
+
     const transform = [
       {
         scale: animation.interpolate({
           inputRange: [0, 1],
-          outputRange: [1, end.width / origin.width]
-        })
-      },
-      {
-        translateX: animation.interpolate({
-          inputRange: [0, 1],
-          outputRange: [origin.x, end.x]
+          outputRange: [factor, 1]
         })
       },
       {
         translateY: animation.interpolate({
           inputRange: [0, 1],
-          outputRange: [origin.y, end.y]
+          outputRange: [origin.y - offset / 2, 0]
         })
       }
     ];

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BookImage } from '../../shared';
-import ReactNative, { Animated, Image, View, TouchableWithoutFeedback } from 'react-native';
+import ReactNative, { Animated, Image, View, TouchableWithoutFeedback, Dimensions } from 'react-native';
 import { Title, Text } from 'native-base';
 
 
@@ -15,116 +15,26 @@ class Review extends Component {
     expanded: false,
     origin: null,
     end: null,
-    current: {
-      width: null,
-      height: null,
-      x: null,
-      y: null
-    }
   }
 
-  MeasureEnd = (props) => {
-
-    const { aspectRatio } = this.refs.bookImage.state;
-
-    const _onLayout = ({nativeEvent}) => {
-
-      const { height, width, x, y } = nativeEvent.layout;
-
-      const end = {
-        height: width / aspectRatio,
-        width,
-        x,
-        y
-      };
-
-      this.setState({end});
-    }
-
-
-    return (
-      <View
-        onLayout={_onLayout}
-        style={Styles.measure()}
-      />
-    );
-
-  }
-
-  setCurrent = async () => {
-
-    const _wrap = (layout) => {
-      return {
-        width: new Animated.Value(layout.width),
-        height: new Animated.Value(layout.height),
-        x: new Animated.Value(layout.x),
-        y: new Animated.Value(layout.y)
-      };
-    }
-
-    const { current, end, origin, expanded, animating } = this.state;
-
-    if(expanded) return this.setStatePromise({current: _wrap(end)});
-    else if(!animating) return this.setStatePromise({current: _wrap(origin)});
-  }
-
-  AnimatingReview = (props) => {
-    const { width, height, x, y } = this.state.origin;
-
-    return <View style={{height, width, margin: 10, opacity: 0}} />
-  }
-
-  setStatePromise = async (state) => {
-    await this.setState(state);
-  }
-
-  measure = () => {
+  prepareAnimation = () => {
     return new Promise((resolve, reject) => {
-      this.refs.bookImage.measure(
-        (x, y, width, height) => {
-          resolve({x, y, height, width});
-        }
-      );
+      this.refs.bookImage.measure((x, y, width, height) => {
+        this.setState({origin: {x, y, height, width}}, () => {
+          resolve();
+        });
+      });
     });
   }
 
-  measureOrigin = async () => {
-    await this.measure().then(
-      async origin => {
-        console.log(origin)
-        await this.setStatePromise({origin})
-      }
-    );
-  }
-
-  setInitial = ({nativeEvent}) => {
-
-    const { x, y, width, height} = nativeEvent.layout;
-
+  onAspect = (aspect) => {
+    const { width } = Dimensions.get('window');
+    const height = width / aspect;
     this.setState({
-      current: {
-        x: new Animated.Value(x),
-        y: new Animated.Value(y),
-        width: new Animated.Value(width),
-        height: new Animated.Value(height)
+      end: {
+        width, height, x: 0, y: 0
       }
     });
-  }
-
-  prepareAnimation = async () => {
-    return this.measureOrigin().then(
-      () => {
-        return this.setCurrent().then(
-          () => {
-            return this.setStatePromise({animating: true});
-          }
-        )
-      }
-    );
-  }
-
-  completeAnimation = async (expanded = false, callback = null) => {
-    await this.setState({expanded, animating: false}, callback);
   }
 
   onPress = () => {
@@ -138,27 +48,17 @@ class Review extends Component {
 
 
   render() {
+    const { onAspect } = this;
 
-    const { end, animating, expanded } = this.state;
-    const { MeasureEnd, AnimatingReview, setInitial } = this;
-
-    if(!end && this.refs.bookImage) {
-      return <MeasureEnd />
-    }
-    else if(animating || expanded)
-      return (
-        <AnimatingReview />
-      );
-    else
-      return (
-        <TouchableWithoutFeedback onPress={this.onPress}>
-          <View ref="view" style={{alignSelf: 'stretch', flexDirection: 'column'}}>
-            <View style={{flexDirection: 'column', padding: 10, justifyContent: 'space-between', alignItems: 'center'}}>
-              <BookImage onLayout={setInitial} ref="bookImage" fillWidth={true} source={this.props.source}/>
-            </View>
+    return (
+      <TouchableWithoutFeedback onPress={this.onPress}>
+        <View ref="view" style={{alignSelf: 'stretch', flexDirection: 'column'}}>
+          <View style={{flexDirection: 'column', padding: 10, justifyContent: 'space-between', alignItems: 'center'}}>
+            <BookImage onAspect={onAspect} ref="bookImage" fillWidth={true} source={this.props.source}/>
           </View>
-        </TouchableWithoutFeedback>
-      );
+        </View>
+      </TouchableWithoutFeedback>
+    );
   }
 }
 

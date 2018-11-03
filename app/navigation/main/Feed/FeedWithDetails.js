@@ -1,5 +1,6 @@
 import { createStackNavigator } from 'react-navigation';
-import { Feed, Details, FeedDetailsTransition } from '../../../scenes/main';
+import { Details, FeedDetailsTransition } from '../../../state/scenes/main';
+import { Feed } from '../../../state/scenes/main';
 import { Animated, Easing } from 'react-native';
 
 const FeedWithDetails = createStackNavigator({
@@ -8,8 +9,12 @@ const FeedWithDetails = createStackNavigator({
   Details
 }, {
   headerMode: 'none',
+  cardStyle: {
+    backgroundColor: 'transparent',
+    opacity: 1,
+  },
   transitionConfig: () => ({
-    cardStyle: {
+    containerStyle: {
       backgroundColor: 'transparent'
     },
   	transitionSpec: {
