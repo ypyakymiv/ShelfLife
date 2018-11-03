@@ -1,5 +1,3 @@
-# ShelfLife
-
 <h1 align="center">
   <img src="https://raw.githubusercontent.com/ypyakymiv/LibRary/master/icon/mipmap-xxhdpi/ic_launcher.png"/><br>
   ShelfLife
