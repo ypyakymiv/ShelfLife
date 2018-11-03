@@ -1,6 +1,13 @@
 # ShelfLife
 
-![Test gif](/RM_RES/test.gif)
+<h1 align="center">
+  <img src="https://raw.githubusercontent.com/ypyakymiv/LibRary/master/icon/mipmap-xxhdpi/ic_launcher.png"/><br>
+  ShelfLife
+</h1>
+
+<h1 style="display: inline; width: 100%; align: center;">
+  <img src="https://github.com/ypyakymiv/LibRary/blob/master/RM_res/test.gif" style="display: inline;" width="30%" />
+</h1>
 
 Currently in development.
 
@@ -20,9 +27,9 @@ v0.0.5
   - Book search
   - Library list
   - Transactions list
-  
+
 TO-DO:
-  
+
   - Create accounts/sessions
   - Implement payment handling
   - Artificial intelligence for book recognition
